@@ -11,7 +11,7 @@ function PrimaryButton({
     <Button
       className={cn(
         buttonVariants({ variant: "default", size: "default", className }),
-        "bg-blue-600 hover:bg-blue-500 py-5 px-3 rounded-full",
+        "bg-blue-600 hover:bg-blue-500 py-4 px-4 rounded-full",
       )}
       {...props}
     />

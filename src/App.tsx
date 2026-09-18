@@ -1,6 +1,5 @@
 import PrimaryButton from "./components/PrimaryButton";
 import { TableDemo } from "./components/Table";
-import { Card } from "./components/ui/card";
 import { Plus } from "lucide-react";
 import { products } from "./products";
 
@@ -19,9 +18,7 @@ function App() {
           Dodaj produkt
         </PrimaryButton>
       </div>
-      <Card className="w-full py-0">
-        <TableDemo />
-      </Card>
+      <TableDemo />
     </div>
   );
 }
