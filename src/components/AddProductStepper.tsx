@@ -10,7 +10,7 @@ type AddProductStepperProps = {
 
 export function AddProductStepper({ currentStep }: AddProductStepperProps) {
   return (
-    <div className="flex items-center justify-start gap-3 border-y border-border p-4 -mx-4">
+    <div className="flex flex-row justify-between gap-4 border-y border-border p-4 -mx-4 lg:items-center lg:justify-start lg:gap-3">
       {STEPS.map((step, index) => {
         const done = currentStep > step.number;
         const active = currentStep === step.number;
@@ -18,7 +18,7 @@ export function AddProductStepper({ currentStep }: AddProductStepperProps) {
 
         return (
           <Fragment key={step.number}>
-            <div className="flex items-center gap-2.5">
+            <div className="flex flex-col items-start gap-2.5 lg:flex-row">
               <span
                 className={cn(
                   "flex size-8 shrink-0 items-center justify-center rounded-full border text-sm font-medium transition-colors",
@@ -31,7 +31,7 @@ export function AddProductStepper({ currentStep }: AddProductStepperProps) {
               >
                 {done ? <Check className="size-4" /> : step.number}
               </span>
-              <div className="flex flex-col leading-tight">
+              <div className="flex flex-col items-start text-center leading-tight lg:items-start lg:text-left">
                 <span
                   className={cn(
                     "text-sm font-medium whitespace-nowrap",
@@ -49,7 +49,7 @@ export function AddProductStepper({ currentStep }: AddProductStepperProps) {
               <Separator
                 orientation="horizontal"
                 className={cn(
-                  "flex-1 rounded-full transition-colors max-w-[70px]",
+                  "hidden flex-1 rounded-full transition-colors max-w-[70px] lg:block",
                   done ? "bg-blue-600" : "bg-border",
                 )}
               />

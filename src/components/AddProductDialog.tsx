@@ -9,6 +9,7 @@ import { AddProductStepper } from "./AddProductStepper";
 import { AddProductSteps as STEPS } from "@/products";
 import PrimaryButton from "./PrimaryButton";
 import { ArrowLeft } from "lucide-react";
+import { cn } from "cn";
 
 interface AddProductDialogContentProps {
   step: number;
@@ -20,16 +21,18 @@ const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
   setStep,
 }) => {
   return (
-    <DialogContent className="sm:max-w-2xl">
+    <DialogContent mobileFullscreen>
       <DialogHeader>
         <DialogTitle>Dodaj nowy produkt</DialogTitle>
       </DialogHeader>
       <AddProductStepper currentStep={step} />
+      <div className="flex flex-col gap-4 py-4 mb-auto lg:mb-0"></div>
       <DialogFooter className="sm:justify-between">
         <Button
           type="button"
           variant="outline"
           disabled={step === 1}
+          className={cn(step === 1 && "opacity-0!")}
           onClick={() => setStep((value) => Math.max(1, value - 1))}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
