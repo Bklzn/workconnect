@@ -57,7 +57,7 @@ export const products: Product[] = [
     stock: "—",
   },
   {
-    name: "LG OLED 55\" B3",
+    name: 'LG OLED 55" B3',
     sku: "LGOLED55B3",
     category: "RTV",
     priceGross: 4999.0,
@@ -104,4 +104,10 @@ export const products: Product[] = [
     status: "Dostępny",
     stock: 8,
   },
+];
+
+export const AddProductSteps = [
+  { number: 1, title: "Informacje", subtitle: "Dane podstawowe" },
+  { number: 2, title: "Cena", subtitle: "Dane cenowe" },
+  { number: 3, title: "Dostępność", subtitle: "Stany magazynowe" },
 ];
