@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { Check } from "lucide-react";
 import { cn } from "cn";
 import { Separator } from "./ui/separator";
-import { AddProductSteps as STEPS } from "@/products";
+import { AddProductSteps as STEPS } from "@/data/products";
 
 type AddProductStepperProps = {
   currentStep: number;
@@ -10,7 +10,7 @@ type AddProductStepperProps = {
 
 export function AddProductStepper({ currentStep }: AddProductStepperProps) {
   return (
-    <div className="flex flex-row justify-between gap-4 border-y border-border p-4 -mx-4 lg:items-center lg:justify-start lg:gap-3">
+    <div className="flex flex-row justify-between gap-4 border-y border-border p-4 lg:-mx-4 lg:items-center lg:justify-start lg:gap-3">
       {STEPS.map((step, index) => {
         const done = currentStep > step.number;
         const active = currentStep === step.number;

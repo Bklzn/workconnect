@@ -1,5 +1,5 @@
 import { Pagination } from "@/components/ui/pagination";
-import type { Product } from "@/products";
+import type { Product } from "@/data/products";
 import { PaginationControls } from "./PaginationControls";
 import { ProductCard } from "./ProductCard";
 

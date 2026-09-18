@@ -1,16 +1,21 @@
 import PrimaryButton from "./components/PrimaryButton";
 import { TableDemo } from "./components/Table";
 import { Plus } from "lucide-react";
-import { products } from "./products";
+import { products } from "./data/products";
 import { useState } from "react";
 import { Dialog, DialogTrigger } from "./components/ui/dialog";
 import AddProductDialogContent from "./components/AddProductDialog";
+import { useAddProductForm } from "./components/addProduct/useAddProductForm";
 
 function App() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogStep, setDialogStep] = useState(1);
+  const [attempted, setAttempted] = useState(false);
+  const { form } = useAddProductForm();
 
   const handleDialogOpenChange = (open: boolean) => {
+    form.reset();
+    setAttempted(false);
     setDialogStep(1);
     setIsDialogOpen(open);
   };
@@ -37,7 +42,13 @@ function App() {
               </PrimaryButton>
             }
           />
-          <AddProductDialogContent step={dialogStep} setStep={setDialogStep} />
+          <AddProductDialogContent
+            form={form}
+            attempted={attempted}
+            setAttempted={setAttempted}
+            step={dialogStep}
+            setStep={setDialogStep}
+          />
         </Dialog>
       </div>
       <TableDemo />

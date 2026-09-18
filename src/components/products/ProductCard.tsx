@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { pln } from "@/lib/format";
-import type { Product } from "@/products";
+import type { Product } from "@/data/products";
 
 export function ProductCard({ product }: { product: Product }) {
   return (

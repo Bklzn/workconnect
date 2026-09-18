@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { products } from "@/products";
+import { products } from "@/data/products";
 import { ProductCardList } from "./products/ProductCardList";
 import { ProductTable } from "./products/ProductTable";
 import { Card } from "./ui/card";

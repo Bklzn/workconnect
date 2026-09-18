@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { pln } from "@/lib/format";
-import type { Product } from "@/products";
+import type { Product } from "@/data/products";
 import { PaginationControls } from "./PaginationControls";
 
 type ProductTableProps = {
@@ -59,9 +59,7 @@ export function ProductTable({
                 <TableCell>
                   <Badge
                     variant={
-                      product.status === "Dostępny"
-                        ? "default"
-                        : "destructive"
+                      product.status === "Dostępny" ? "default" : "destructive"
                     }
                   >
                     {product.status}
