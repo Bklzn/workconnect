@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useQueryState, parseAsInteger } from "nuqs";
 import type { Product } from "@/data/products";
 import { ProductCardList } from "./products/ProductCardList";
 import { ProductTable } from "./products/ProductTable";
@@ -9,13 +10,20 @@ interface TableDemoProps {
 }
 
 export function TableDemo({ products }: TableDemoProps) {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
   const itemsPerPage = 5;
   const totalPages = Math.ceil(products.length / itemsPerPage);
+  const safePage = Math.min(Math.max(page, 1), Math.max(totalPages, 1));
   const currentProducts = products.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage,
+    (safePage - 1) * itemsPerPage,
+    safePage * itemsPerPage,
   );
+
+  useEffect(() => {
+    if (page !== safePage) {
+      setPage(safePage);
+    }
+  }, [page, safePage, setPage]);
 
   return (
     <>
