@@ -22,9 +22,11 @@ function App() {
   );
 
   const handleDialogOpenChange = (open: boolean) => {
-    setAttempted(false);
-    setDialogStep(1);
     setIsDialogOpen(open);
+    if (open) {
+      setAttempted(false);
+      setDialogStep(1);
+    }
   };
 
   const handleSave = () => {

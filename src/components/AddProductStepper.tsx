@@ -35,7 +35,9 @@ export function AddProductStepper({ currentStep }: AddProductStepperProps) {
                 <span
                   className={cn(
                     "text-sm font-medium whitespace-nowrap",
-                    active ? "text-foreground" : "text-muted-foreground",
+                    active || done
+                      ? "text-foreground"
+                      : "text-muted-foreground",
                   )}
                 >
                   {step.title}
