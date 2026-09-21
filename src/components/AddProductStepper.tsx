@@ -10,7 +10,7 @@ type AddProductStepperProps = {
 
 export function AddProductStepper({ currentStep }: AddProductStepperProps) {
   return (
-    <div className="flex flex-row justify-between gap-4 border-y border-border p-4 lg:-mx-4 lg:items-center lg:justify-start lg:gap-3">
+    <div className="flex flex-row justify-between gap-4 border-y border-border py-4 lg:-mx-4 lg:items-center lg:justify-start lg:gap-3 lg:p-4">
       {STEPS.map((step, index) => {
         const done = currentStep > step.number;
         const active = currentStep === step.number;
@@ -18,7 +18,7 @@ export function AddProductStepper({ currentStep }: AddProductStepperProps) {
 
         return (
           <Fragment key={step.number}>
-            <div className="flex flex-col items-start gap-2.5 lg:flex-row">
+            <div className="flex flex-1 flex-col items-start gap-2.5 lg:flex-row lg:flex-none">
               <span
                 className={cn(
                   "flex size-8 shrink-0 items-center justify-center rounded-full border text-sm font-medium transition-colors",

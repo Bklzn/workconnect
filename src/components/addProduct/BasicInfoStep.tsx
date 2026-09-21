@@ -23,9 +23,14 @@ import type { AddProductForm } from "./useAddProductForm";
 interface BasicInfoStepProps {
   form: AddProductForm;
   attempted: boolean;
+  existingSkus: string[];
 }
 
-export function BasicInfoStep({ form, attempted }: BasicInfoStepProps) {
+export function BasicInfoStep({
+  form,
+  attempted,
+  existingSkus,
+}: BasicInfoStepProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
@@ -59,8 +64,8 @@ export function BasicInfoStep({ form, attempted }: BasicInfoStepProps) {
         <form.Field
           name="sku"
           validators={{
-            onChange: ({ value }) => skuValidator(value),
-            onBlur: ({ value }) => skuValidator(value),
+            onChange: ({ value }) => skuValidator(value, existingSkus),
+            onBlur: ({ value }) => skuValidator(value, existingSkus),
           }}
         >
           {(field) => {

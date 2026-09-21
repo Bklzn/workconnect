@@ -6,7 +6,7 @@ export function parsePrice(value: string): number | null {
   return Number.isFinite(num) && num >= 0 ? num : null;
 }
 
-function round2(value: number): number {
+export function round2(value: number): number {
   return Math.round((value + Number.EPSILON) * 100) / 100;
 }
 

@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { products } from "@/data/products";
+import type { Product } from "@/data/products";
 import { ProductCardList } from "./products/ProductCardList";
 import { ProductTable } from "./products/ProductTable";
 import { Card } from "./ui/card";
 
-export function TableDemo() {
+interface TableDemoProps {
+  products: Product[];
+}
+
+export function TableDemo({ products }: TableDemoProps) {
   const [page, setPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(products.length / itemsPerPage);

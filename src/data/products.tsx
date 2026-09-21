@@ -5,6 +5,14 @@ export type Product = {
   priceGross: number;
   status: "Dostępny" | "Niedostępny";
   stock: number | "—";
+  manufacturer?: string | null;
+  description?: string;
+  features?: string[];
+  netPrice?: number;
+  vatRate?: number;
+  currency?: string;
+  minCartQuantity?: number;
+  maxCartQuantity?: number;
 };
 
 export const products: Product[] = [

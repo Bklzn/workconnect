@@ -31,14 +31,24 @@ const featuresSchema = z
   .array(z.string())
   .min(1, "Wybierz co najmniej jedną cechę");
 
-export const step1Schema = z.object({
-  name: nameSchema,
-  sku: skuSchema,
-  description: z.string().optional(),
-  manufacturer: manufacturerSchema,
-  category: categorySchema,
-  features: featuresSchema,
-});
+export function buildStep1Schema(existingSkus: string[]) {
+  return z.object({
+    name: nameSchema,
+    sku:
+      existingSkus.length === 0
+        ? skuSchema
+        : skuSchema.refine((value) => {
+            const normalized = value.trim().toUpperCase();
+            return !existingSkus.includes(normalized);
+          }, "Produkt z tym SKU już istnieje"),
+    description: z.string().optional(),
+    manufacturer: manufacturerSchema,
+    category: categorySchema,
+    features: featuresSchema,
+  });
+}
+
+export const step1Schema = buildStep1Schema([]);
 
 export type Step1FormValues = z.infer<typeof step1Schema>;
 
@@ -48,7 +58,17 @@ function messageOf(schema: z.ZodTypeAny, value: unknown): string | undefined {
 }
 
 export const nameValidator = (value: string) => messageOf(nameSchema, value);
-export const skuValidator = (value: string) => messageOf(skuSchema, value);
+export const skuValidator = (
+  value: string,
+  existingSkus: string[] = [],
+): string | undefined => {
+  const base = messageOf(skuSchema, value);
+  if (base) return base;
+  const normalized = value.trim().toUpperCase();
+  return existingSkus.includes(normalized)
+    ? "Produkt z tym SKU już istnieje"
+    : undefined;
+};
 export const manufacturerValidator = (value: string | null) =>
   messageOf(manufacturerSchema, value);
 export const categoryValidator = (value: string | null) =>
@@ -172,8 +192,13 @@ export const minCartQuantityValidator = (
   maxValue: string,
 ): string | undefined => {
   if (value === "") return undefined;
-  if (!isNonNegInt(value)) return "Minimalna ilość musi być nieujemną liczbą całkowitą";
-  if (maxValue !== "" && isNonNegInt(maxValue) && Number(value) > Number(maxValue))
+  if (!isNonNegInt(value))
+    return "Minimalna ilość musi być nieujemną liczbą całkowitą";
+  if (
+    maxValue !== "" &&
+    isNonNegInt(maxValue) &&
+    Number(value) > Number(maxValue)
+  )
     return "Minimalna ilość nie może być większa niż maksymalna";
   return undefined;
 };
@@ -183,8 +208,13 @@ export const maxCartQuantityValidator = (
   minValue: string,
 ): string | undefined => {
   if (value === "") return undefined;
-  if (!isNonNegInt(value)) return "Maksymalna ilość musi być nieujemną liczbą całkowitą";
-  if (minValue !== "" && isNonNegInt(minValue) && Number(value) < Number(minValue))
+  if (!isNonNegInt(value))
+    return "Maksymalna ilość musi być nieujemną liczbą całkowitą";
+  if (
+    minValue !== "" &&
+    isNonNegInt(minValue) &&
+    Number(value) < Number(minValue)
+  )
     return "Maksymalna ilość nie może być mniejsza niż minimalna";
   return undefined;
 };

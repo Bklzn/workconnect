@@ -13,7 +13,7 @@ import { cn } from "cn";
 import { BasicInfoStep } from "./addProduct/BasicInfoStep";
 import { PricingStep } from "./addProduct/PricingStep";
 import { AvailabilityStep } from "./addProduct/AvailabilityStep";
-import { step1Schema, step2Schema, step3Schema } from "@/lib/validators";
+import { buildStep1Schema, step2Schema, step3Schema } from "@/lib/validators";
 import type { AddProductForm } from "./addProduct/useAddProductForm";
 
 interface AddProductDialogContentProps {
@@ -22,6 +22,8 @@ interface AddProductDialogContentProps {
   setAttempted: React.Dispatch<React.SetStateAction<boolean>>;
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  existingSkus: string[];
+  onSave: () => void;
 }
 
 const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
@@ -30,10 +32,11 @@ const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
   setAttempted,
   step,
   setStep,
+  existingSkus,
+  onSave,
 }) => {
   const handleNext = async () => {
     setAttempted(true);
-
     if (step === 1) {
       const fields = [
         "name",
@@ -45,7 +48,8 @@ const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
       await Promise.all(
         fields.map((name) => form.validateField(name, "change")),
       );
-      if (!step1Schema.safeParse(form.state.values).success) return;
+      if (!buildStep1Schema(existingSkus).safeParse(form.state.values).success)
+        return;
     }
 
     if (step === 2) {
@@ -74,6 +78,20 @@ const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
     setStep((value) => Math.min(STEPS.length, value + 1));
   };
 
+  const handleSave = async () => {
+    setAttempted(true);
+    const fields = [
+      "isAvailable",
+      "limited",
+      "stockQuantity",
+      "minCartQuantity",
+      "maxCartQuantity",
+    ] as const;
+    await Promise.all(fields.map((name) => form.validateField(name, "change")));
+    if (!step3Schema.safeParse(form.state.values).success) return;
+    onSave();
+  };
+
   return (
     <DialogContent mobileFullscreen>
       <DialogHeader>
@@ -81,7 +99,13 @@ const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
       </DialogHeader>
       <AddProductStepper currentStep={step} />
       <div className="flex flex-col gap-4 py-4 mb-auto lg:mb-0 overflow-y-auto">
-        {step === 1 && <BasicInfoStep form={form} attempted={attempted} />}
+        {step === 1 && (
+          <BasicInfoStep
+            form={form}
+            attempted={attempted}
+            existingSkus={existingSkus}
+          />
+        )}
         {step === 2 && <PricingStep form={form} attempted={attempted} />}
         {step === 3 && <AvailabilityStep form={form} attempted={attempted} />}
       </div>
@@ -106,7 +130,7 @@ const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
             <ArrowLeft className="ml-2 h-4 w-4 rotate-180" />
           </PrimaryButton>
         ) : (
-          <PrimaryButton type="button" disabled>
+          <PrimaryButton type="button" onClick={handleSave}>
             Zapisz produkt
           </PrimaryButton>
         )}
