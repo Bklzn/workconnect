@@ -1,75 +1,55 @@
-# React + TypeScript + Vite
+# WorkConnect
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A product catalog web app built with React and TypeScript. Add products through a multi-step dialog form with validation, browse them in a live catalog table, and get instant feedback via toast notifications.
 
-Currently, two official plugins are available:
+## Live demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Deployed to GitHub Pages: [bklzn.github.io/workconnect](https://bklzn.github.io/workconnect/)
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Multi-step "Add product" dialog form
+- Form validation powered by Zod
+- Duplicate SKU detection
+- Live product catalog table
+- Toast notifications
+- Responsive UI with Tailwind CSS and shadcn/ui
 
-## Expanding the ESLint configuration
+## Tech stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- [React](https://react.dev/) 19
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vite.dev/) 8
+- [Tailwind CSS](https://tailwindcss.com/) 4
+- [shadcn/ui](https://ui.shadcn.com/)
+- [TanStack Form](https://tanstack.com/form) + [Zod](https://zod.dev/)
+- [lucide-react](https://lucide.dev/) icons
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Requirements
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- [Node.js](https://nodejs.org/) 22+ (Vite 8 requires `^20.19.0 || >=22.12.0`)
+- npm
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Installation
 
+```bash
+git clone https://github.com/Bklzn/workconnect.git
+cd workconnect
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+The app will be available at `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Command           | Description                          |
+| ----------------- | ------------------------------------ |
+| `npm run dev`     | Start the Vite dev server            |
+| `npm run build`   | Type-check and build to `dist/`      |
+| `npm run preview` | Preview the production build         |
+| `npm run lint`    | Run ESLint                           |
 
-```
+## CI/CD
+
+GitHub Actions workflow (`.github/workflows/deploy.yml`) builds the project and deploys `dist/` to GitHub Pages on every push to `master`.
