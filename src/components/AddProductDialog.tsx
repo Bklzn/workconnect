@@ -11,7 +11,8 @@ import PrimaryButton from "./PrimaryButton";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "cn";
 import { BasicInfoStep } from "./addProduct/BasicInfoStep";
-import { step1Schema } from "@/lib/validators";
+import { PricingStep } from "./addProduct/PricingStep";
+import { step1Schema, step2Schema } from "@/lib/validators";
 import type { AddProductForm } from "./addProduct/useAddProductForm";
 
 interface AddProductDialogContentProps {
@@ -31,17 +32,31 @@ const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
 }) => {
   const handleNext = async () => {
     setAttempted(true);
-    const fields = [
-      "name",
-      "sku",
-      "manufacturer",
-      "category",
-      "features",
-    ] as const;
-    await Promise.all(fields.map((name) => form.validateField(name, "change")));
-    if (step1Schema.safeParse(form.state.values).success) {
-      setStep((value) => Math.min(STEPS.length, value + 1));
+
+    if (step === 1) {
+      const fields = [
+        "name",
+        "sku",
+        "manufacturer",
+        "category",
+        "features",
+      ] as const;
+      await Promise.all(
+        fields.map((name) => form.validateField(name, "change")),
+      );
+      if (!step1Schema.safeParse(form.state.values).success) return;
     }
+
+    if (step === 2) {
+      const fields = ["netPrice", "grossPrice", "vatRate", "currency"] as const;
+      await Promise.all(
+        fields.map((name) => form.validateField(name, "change")),
+      );
+      if (!step2Schema.safeParse(form.state.values).success) return;
+    }
+
+    setAttempted(false);
+    setStep((value) => Math.min(STEPS.length, value + 1));
   };
 
   return (
@@ -52,6 +67,12 @@ const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
       <AddProductStepper currentStep={step} />
       <div className="flex flex-col gap-4 py-4 mb-auto lg:mb-0 overflow-y-auto">
         {step === 1 && <BasicInfoStep form={form} attempted={attempted} />}
+        {step === 2 && <PricingStep form={form} attempted={attempted} />}
+        {step === 3 && (
+          <p className="text-sm text-muted-foreground">
+            Krok „Dostępność" — w przygotowaniu
+          </p>
+        )}
       </div>
       <DialogFooter className="sm:justify-between">
         <Button
@@ -67,7 +88,7 @@ const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
         {step < STEPS.length ? (
           <PrimaryButton
             type="button"
-            disabled={step !== 1}
+            disabled={step === STEPS.length}
             onClick={handleNext}
           >
             Dalej

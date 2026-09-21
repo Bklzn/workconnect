@@ -27,3 +27,7 @@ export const PRODUCT_FEATURES = [
   "Ekologiczny",
   "Premium",
 ] as const;
+
+export const VAT_RATES = [0, 5, 8, 23] as const;
+
+export const CURRENCIES = ["PLN", "EUR", "USD", "GBP", "CHF"] as const;

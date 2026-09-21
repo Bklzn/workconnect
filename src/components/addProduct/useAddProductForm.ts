@@ -1,13 +1,17 @@
 import { useForm } from "@tanstack/react-form";
-import type { Step1FormValues } from "@/lib/validators";
+import type { AddProductFormValues } from "@/lib/validators";
 
-const defaultValues: Step1FormValues = {
+const defaultValues: AddProductFormValues = {
   name: "",
   sku: "",
   description: "",
   manufacturer: null,
   category: null,
   features: [],
+  netPrice: "",
+  grossPrice: "",
+  vatRate: 23,
+  currency: "PLN",
 };
 
 export function useAddProductForm() {

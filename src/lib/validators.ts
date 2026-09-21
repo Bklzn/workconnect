@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { VAT_RATES } from "@/data/productOptions";
+import { parsePrice } from "@/lib/pricing";
 
 const nameSchema = z
   .string()
@@ -53,3 +55,42 @@ export const categoryValidator = (value: string | null) =>
   messageOf(categorySchema, value);
 export const featuresValidator = (value: string[]) =>
   messageOf(featuresSchema, value);
+
+const netPriceSchema = z
+  .string()
+  .min(1, "Podaj cenę netto")
+  .refine((value) => parsePrice(value) != null, "Nieprawidłowa cena");
+
+const grossPriceSchema = z
+  .string()
+  .min(1, "Podaj cenę brutto")
+  .refine((value) => parsePrice(value) != null, "Nieprawidłowa cena");
+
+const vatRateSchema = z
+  .number()
+  .refine(
+    (value) => (VAT_RATES as readonly number[]).includes(value),
+    "Wybierz stawkę VAT",
+  );
+
+const currencySchema = z.string().min(1, "Wybierz walutę");
+
+export const step2Schema = z.object({
+  netPrice: netPriceSchema,
+  grossPrice: grossPriceSchema,
+  vatRate: vatRateSchema,
+  currency: currencySchema,
+});
+
+export type Step2FormValues = z.infer<typeof step2Schema>;
+
+export const netPriceValidator = (value: string) =>
+  messageOf(netPriceSchema, value);
+export const grossPriceValidator = (value: string) =>
+  messageOf(grossPriceSchema, value);
+export const vatRateValidator = (value: number) =>
+  messageOf(vatRateSchema, value);
+export const currencyValidator = (value: string) =>
+  messageOf(currencySchema, value);
+
+export type AddProductFormValues = Step1FormValues & Step2FormValues;
