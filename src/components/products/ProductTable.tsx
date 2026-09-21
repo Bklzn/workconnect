@@ -31,15 +31,15 @@ export function ProductTable({
   onPageChange,
 }: ProductTableProps) {
   return (
-    <Table>
+    <Table className="table-fixed">
       <TableHeader>
         <TableRow className="bg-muted/50 text-muted-foreground">
-          <TableHead>Nazwa</TableHead>
-          <TableHead>SKU</TableHead>
-          <TableHead>Kategoria</TableHead>
-          <TableHead>Cena Brutto</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Magazyn</TableHead>
+          <TableHead className="w-[30%]">Nazwa</TableHead>
+          <TableHead className="w-[15%]">SKU</TableHead>
+          <TableHead className="w-[15%]">Kategoria</TableHead>
+          <TableHead className="w-[12%]">Cena Brutto</TableHead>
+          <TableHead className="w-[13%]">Status</TableHead>
+          <TableHead className="w-[10%]">Magazyn</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -48,11 +48,18 @@ export function ProductTable({
           if (product) {
             return (
               <TableRow key={product.sku}>
-                <TableCell className="text-foreground font-medium">
+                <TableCell
+                  className="truncate text-foreground font-medium"
+                  title={product.name}
+                >
                   {product.name}
                 </TableCell>
-                <TableCell className="text-xs">{product.sku}</TableCell>
-                <TableCell>{product.category}</TableCell>
+                <TableCell className="truncate text-xs" title={product.sku}>
+                  {product.sku}
+                </TableCell>
+                <TableCell className="truncate" title={product.category}>
+                  {product.category}
+                </TableCell>
                 <TableCell className="text-foreground font-medium">
                   {pln.format(product.priceGross)}
                 </TableCell>
