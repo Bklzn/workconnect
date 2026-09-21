@@ -12,6 +12,11 @@ const defaultValues: AddProductFormValues = {
   grossPrice: "",
   vatRate: 23,
   currency: "PLN",
+  isAvailable: true,
+  limited: false,
+  stockQuantity: "",
+  minCartQuantity: "0",
+  maxCartQuantity: "10",
 };
 
 export function useAddProductForm() {

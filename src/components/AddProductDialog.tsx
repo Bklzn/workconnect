@@ -12,7 +12,8 @@ import { ArrowLeft } from "lucide-react";
 import { cn } from "cn";
 import { BasicInfoStep } from "./addProduct/BasicInfoStep";
 import { PricingStep } from "./addProduct/PricingStep";
-import { step1Schema, step2Schema } from "@/lib/validators";
+import { AvailabilityStep } from "./addProduct/AvailabilityStep";
+import { step1Schema, step2Schema, step3Schema } from "@/lib/validators";
 import type { AddProductForm } from "./addProduct/useAddProductForm";
 
 interface AddProductDialogContentProps {
@@ -55,6 +56,20 @@ const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
       if (!step2Schema.safeParse(form.state.values).success) return;
     }
 
+    if (step === 3) {
+      const fields = [
+        "isAvailable",
+        "limited",
+        "stockQuantity",
+        "minCartQuantity",
+        "maxCartQuantity",
+      ] as const;
+      await Promise.all(
+        fields.map((name) => form.validateField(name, "change")),
+      );
+      if (!step3Schema.safeParse(form.state.values).success) return;
+    }
+
     setAttempted(false);
     setStep((value) => Math.min(STEPS.length, value + 1));
   };
@@ -68,11 +83,7 @@ const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
       <div className="flex flex-col gap-4 py-4 mb-auto lg:mb-0 overflow-y-auto">
         {step === 1 && <BasicInfoStep form={form} attempted={attempted} />}
         {step === 2 && <PricingStep form={form} attempted={attempted} />}
-        {step === 3 && (
-          <p className="text-sm text-muted-foreground">
-            Krok „Dostępność" — w przygotowaniu
-          </p>
-        )}
+        {step === 3 && <AvailabilityStep form={form} attempted={attempted} />}
       </div>
       <DialogFooter className="sm:justify-between">
         <Button

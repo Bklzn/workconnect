@@ -93,4 +93,102 @@ export const vatRateValidator = (value: number) =>
 export const currencyValidator = (value: string) =>
   messageOf(currencySchema, value);
 
-export type AddProductFormValues = Step1FormValues & Step2FormValues;
+const isNonNegInt = (value: string) => /^\d+$/.test(value);
+
+export const step3Schema = z
+  .object({
+    isAvailable: z.boolean(),
+    limited: z.boolean(),
+    stockQuantity: z.string(),
+    minCartQuantity: z.string(),
+    maxCartQuantity: z.string(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.limited) {
+      if (data.stockQuantity === "") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["stockQuantity"],
+          message: "Podaj ilość na magazynie",
+        });
+      } else if (!isNonNegInt(data.stockQuantity)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["stockQuantity"],
+          message: "Ilość musi być nieujemną liczbą całkowitą",
+        });
+      }
+    }
+    if (data.minCartQuantity !== "" && !isNonNegInt(data.minCartQuantity)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["minCartQuantity"],
+        message: "Minimalna ilość musi być nieujemną liczbą całkowitą",
+      });
+    }
+    if (data.maxCartQuantity !== "" && !isNonNegInt(data.maxCartQuantity)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["maxCartQuantity"],
+        message: "Maksymalna ilość musi być nieujemną liczbą całkowitą",
+      });
+    }
+    if (
+      isNonNegInt(data.minCartQuantity) &&
+      isNonNegInt(data.maxCartQuantity) &&
+      Number(data.minCartQuantity) > Number(data.maxCartQuantity)
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["minCartQuantity"],
+        message: "Minimalna ilość nie może być większa niż maksymalna",
+      });
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["maxCartQuantity"],
+        message: "Maksymalna ilość nie może być mniejsza niż minimalna",
+      });
+    }
+  });
+
+export type Step3FormValues = z.infer<typeof step3Schema>;
+
+export const stockQuantityValidator = (
+  value: string,
+  limited: boolean,
+): string | undefined => {
+  if (limited) {
+    if (value === "") return "Podaj ilość na magazynie";
+    if (!isNonNegInt(value)) return "Ilość musi być nieujemną liczbą całkowitą";
+    return undefined;
+  }
+  if (value !== "" && !isNonNegInt(value))
+    return "Ilość musi być nieujemną liczbą całkowitą";
+  return undefined;
+};
+
+export const minCartQuantityValidator = (
+  value: string,
+  maxValue: string,
+): string | undefined => {
+  if (value === "") return undefined;
+  if (!isNonNegInt(value)) return "Minimalna ilość musi być nieujemną liczbą całkowitą";
+  if (maxValue !== "" && isNonNegInt(maxValue) && Number(value) > Number(maxValue))
+    return "Minimalna ilość nie może być większa niż maksymalna";
+  return undefined;
+};
+
+export const maxCartQuantityValidator = (
+  value: string,
+  minValue: string,
+): string | undefined => {
+  if (value === "") return undefined;
+  if (!isNonNegInt(value)) return "Maksymalna ilość musi być nieujemną liczbą całkowitą";
+  if (minValue !== "" && isNonNegInt(minValue) && Number(value) < Number(minValue))
+    return "Maksymalna ilość nie może być mniejsza niż minimalna";
+  return undefined;
+};
+
+export type AddProductFormValues = Step1FormValues &
+  Step2FormValues &
+  Step3FormValues;
