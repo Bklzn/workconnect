@@ -45,7 +45,7 @@ export function BasicInfoStep({
             const showError = attempted || field.state.meta.isTouched;
             return (
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor={field.name}>Nazwa produktu *</Label>
+                <Label htmlFor={field.name}>Nazwa produktu</Label>
                 <Input
                   id={field.name}
                   value={field.state.value}
@@ -72,7 +72,7 @@ export function BasicInfoStep({
             const showError = attempted || field.state.meta.isTouched;
             return (
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor={field.name}>SKU produktu *</Label>
+                <Label htmlFor={field.name}>SKU produktu</Label>
                 <Input
                   id={field.name}
                   value={field.state.value}
@@ -99,7 +99,7 @@ export function BasicInfoStep({
               value={field.state.value}
               onChange={(event) => field.handleChange(event.target.value)}
               onBlur={field.handleBlur}
-              placeholder="Krótki opis produktu (opcjonalnie)"
+              placeholder="Krótki opis produktu"
               rows={3}
             />
           </div>
@@ -117,7 +117,7 @@ export function BasicInfoStep({
             const showError = attempted || field.state.meta.isTouched;
             return (
               <div className="flex flex-col gap-1.5">
-                <Label>Producent *</Label>
+                <Label>Producent</Label>
                 <Select
                   value={field.state.value}
                   onValueChange={field.handleChange}
@@ -155,7 +155,7 @@ export function BasicInfoStep({
             const showError = attempted || field.state.meta.isTouched;
             return (
               <div className="flex flex-col gap-1.5">
-                <Label>Kategoria *</Label>
+                <Label>Kategoria</Label>
                 <Select
                   value={field.state.value}
                   onValueChange={field.handleChange}
@@ -195,7 +195,7 @@ export function BasicInfoStep({
           const showError = attempted || field.state.meta.isTouched;
           return (
             <div className="flex flex-col gap-1.5">
-              <Label>Cechy produktu *</Label>
+              <Label>Cechy produktu</Label>
               <ProductFeatureBadges
                 value={field.state.value}
                 onChange={field.handleChange}

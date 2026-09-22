@@ -43,7 +43,7 @@ export function PricingStep({ form, attempted }: PricingStepProps) {
             const showError = attempted || field.state.meta.isTouched;
             return (
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor={field.name}>Cena netto *</Label>
+                <Label htmlFor={field.name}>Cena netto</Label>
                 <Input
                   id={field.name}
                   type="number"
@@ -86,7 +86,7 @@ export function PricingStep({ form, attempted }: PricingStepProps) {
             const showError = attempted || field.state.meta.isTouched;
             return (
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor={field.name}>Cena brutto *</Label>
+                <Label htmlFor={field.name}>Cena brutto</Label>
                 <Input
                   id={field.name}
                   type="number"
@@ -131,7 +131,7 @@ export function PricingStep({ form, attempted }: PricingStepProps) {
             const showError = attempted || field.state.meta.isTouched;
             return (
               <div className="flex flex-col gap-1.5">
-                <Label>Stawka VAT *</Label>
+                <Label>Stawka VAT</Label>
                 <Select
                   value={field.state.value}
                   onValueChange={(value) => {
@@ -181,7 +181,7 @@ export function PricingStep({ form, attempted }: PricingStepProps) {
             const showError = attempted || field.state.meta.isTouched;
             return (
               <div className="flex flex-col gap-1.5">
-                <Label>Waluta *</Label>
+                <Label>Waluta</Label>
                 <Select
                   value={field.state.value}
                   onValueChange={(value) => {

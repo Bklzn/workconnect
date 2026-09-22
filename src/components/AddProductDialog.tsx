@@ -98,7 +98,7 @@ const AddProductDialogContent: React.FC<AddProductDialogContentProps> = ({
         <DialogTitle>Dodaj nowy produkt</DialogTitle>
       </DialogHeader>
       <AddProductStepper currentStep={step} />
-      <div className="flex flex-col gap-4 py-4 mb-auto lg:mb-0 overflow-y-auto">
+      <div className="flex flex-col gap-4 -mx-4 px-4 py-4 mb-auto lg:mb-0 overflow-y-auto">
         {step === 1 && (
           <BasicInfoStep
             form={form}

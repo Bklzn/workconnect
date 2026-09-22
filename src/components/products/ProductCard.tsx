@@ -13,10 +13,10 @@ import type { Product } from "@/data/products";
 export function ProductCard({ product }: { product: Product }) {
   return (
     <Card size="sm">
-      <CardHeader>
-        <div className="flex flex-col">
-          <CardTitle>{product.name}</CardTitle>
-          <CardDescription>{product.sku}</CardDescription>
+      <CardHeader className="gap-x-5">
+        <div className="flex min-w-0 flex-col">
+          <CardTitle className="truncate">{product.name}</CardTitle>
+          <CardDescription className="truncate">{product.sku}</CardDescription>
         </div>
         <CardAction className="my-auto">
           <Badge
